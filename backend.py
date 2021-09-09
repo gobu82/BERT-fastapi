@@ -2,7 +2,9 @@ import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-model = torch.load("./bert_base_uncased_555.pt", map_location=torch.device('cpu'))
+model = AutoModelForSequenceClassification.from_pretrained(
+    "custom-bert-base-uncased", num_labels=2
+)
 quantized_model = torch.quantization.quantize_dynamic(
     model, {torch.nn.Linear}, dtype=torch.qint8
 )
